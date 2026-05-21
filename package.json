@@ -15,9 +15,10 @@
     "check": "biome check"
   },
   "dependencies": {
-    "@blaze-motion/motion": "^1.5.1",
-    "@fontsource-variable/geist-mono": "^5.2.8",
-    "@fontsource-variable/inter": "^5.2.8",
+    "@blaze-motion/motion": "^1.5.2",
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",
@@ -25,7 +26,6 @@
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "^1.132.0",
-    "lucide-react": "^0.545.0",
     "motion": "^12.39.0",
     "nitro": "npm:nitro-nightly@latest",
     "react": "^19.2.0",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.5",
+    "@iconify/react": "^6.0.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "latest",
     "@testing-library/dom": "^10.4.1",
