@@ -1,26 +1,25 @@
 @import "tailwindcss";
+@import "@fontsource-variable/dm-sans/wght.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+@import "@fontsource-variable/plus-jakarta-sans/wght.css";
 
 @theme {
-  --color-background: #04101a;
-  --color-background-subtle: #091c2d;
-  --color-card: #0a2033;
-  --color-card-border: #153a5a;
-  --color-popover: #0a2033;
-  --color-primary: #10b981;
-  --color-primary-foreground: #ffffff;
-  --color-success: #06b6d4;
-  --color-success-foreground: #ffffff;
-  --color-border: #153a5a;
+  --color-background: #090c11;
+  --color-card: #121824;
+  --color-card-subtle: rgba(9, 12, 17, 0.8);
+  --color-primary: #f67a7e;
+  --color-primary-foreground: #090c11;
+  --color-secondary: #1b71e9;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #7024eb;
+  --color-border: #1f293d;
+  --color-success: #10b981;
   --color-foreground: #ffffff;
   --color-muted: #94a3b8;
 
-  --font-inter: "Inter", sans-serif;
-  --font-geist-mono: "Geist Mono", monospace;
-
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
-  --radius-full: 9999px;
+  --font-plus-jakarta-sans: "Plus Jakarta Sans Variable", sans-serif;
+  --font-jetbrains-mono: "JetBrains Mono Variable", monospace;
+  --font-dm-sans: "DM Sans Variable", sans-serif;
 }
 
 * {
@@ -34,8 +33,9 @@ body,
 }
 
 body {
-  margin: 0;
-  font-family: var(--font-inter);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  @apply m-0 bg-background text-foreground font-dm-sans;
+}
+
+h1 {
+  @apply font-plus-jakarta-sans;
 }
