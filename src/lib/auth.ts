@@ -1,5 +1,5 @@
 export async function loginWithGitHub() {
-	const { getSupabaseClient } = await import("#/utils/supabase");
+	const { getSupabaseClient } = await import("#/utils/supabase-server");
 	const { data } = await getSupabaseClient().auth.signInWithOAuth({
 		provider: "github",
 		options: {
@@ -8,6 +8,6 @@ export async function loginWithGitHub() {
 		},
 	});
 	if (data?.url) {
-		window.open(data.url, "_blank", "width=600,height=700");
+		window.location.href = data.url;
 	}
 }
