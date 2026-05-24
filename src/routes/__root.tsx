@@ -3,6 +3,7 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Header } from "#/components/layout/header";
 import { GridBackground } from "#/components/ui/grid-background";
+import { AuthProvider } from "#/context/AuthContext";
 import appCss from "../styles.css?url";
 
 const title = "DevInspector AI — Auditoría de código con IA";
@@ -35,27 +36,29 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="es">
-			<head>
-				<HeadContent />
-			</head>
-			<body>
-				<GridBackground />
-				<Header />
-				{children}
-				<TanStackDevtools
-					config={{
-						position: "bottom-right",
-					}}
-					plugins={[
-						{
-							name: "Tanstack Router",
-							render: <TanStackRouterDevtoolsPanel />,
-						},
-					]}
-				/>
-				<Scripts />
-			</body>
-		</html>
+		<AuthProvider>
+			<html lang="es">
+				<head>
+					<HeadContent />
+				</head>
+				<body>
+					<GridBackground />
+					<Header />
+					{children}
+					<TanStackDevtools
+						config={{
+							position: "bottom-right",
+						}}
+						plugins={[
+							{
+								name: "Tanstack Router",
+								render: <TanStackRouterDevtoolsPanel />,
+							},
+						]}
+					/>
+					<Scripts />
+				</body>
+			</html>
+		</AuthProvider>
 	);
 }
