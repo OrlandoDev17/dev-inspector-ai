@@ -1,12 +1,12 @@
-import { Hero } from "#/components/home/hero";
 import { createFileRoute } from "@tanstack/react-router";
+import { Hero } from "#/components/home/hero";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
-  return (
-    <main className="min-h-dvh">
-      <Hero />
-    </main>
-  );
+	return (
+		<main className="min-h-dvh">
+			<Hero />
+		</main>
+	);
 }
