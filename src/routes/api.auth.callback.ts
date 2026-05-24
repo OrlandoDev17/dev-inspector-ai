@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createSupabaseServerClient } from "#/utils/supabase";
+import { createSupabaseServerClient } from "#/utils/supabase-server";
 
 export const Route = createFileRoute("/api/auth/callback")({
 	server: {
