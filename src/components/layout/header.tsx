@@ -1,9 +1,12 @@
 import { Icon } from "@iconify/react";
 import { Link } from "@tanstack/react-router";
 import { GlowButton } from "#/components/ui/glow-button";
+import { useAuth } from "#/context/AuthContext";
 import { loginWithGitHub } from "#/lib/auth";
 
 export function Header() {
+	const { user, loading, logout } = useAuth();
+
 	interface NavItem {
 		id: string;
 		label: string;
@@ -58,10 +61,35 @@ export function Header() {
 					</ul>
 				</nav>
 				<aside className="flex items-center gap-3">
-					<GlowButton color="primary" onClick={loginWithGitHub} target="_blank">
-						<Icon icon="simple-icons:github" className="size-4" />
-						Iniciar con GitHub
-					</GlowButton>
+					{loading ? (
+						<div className="size-8 rounded-full bg-card animate-pulse" />
+					) : user ? (
+						<div className="flex items-center gap-3">
+							<div className="flex items-center gap-2">
+								<img
+									src={user.user_metadata.avatar_url}
+									alt={user.user_metadata.user_name}
+									className="size-8 rounded-full border border-border"
+								/>
+								<span className="text-sm font-medium text-foreground hidden sm:inline">
+									{user.user_metadata.user_name}
+								</span>
+							</div>
+							<button
+								type="button"
+								onClick={logout}
+								className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted hover:text-foreground hover:bg-card/60 rounded-lg transition-all duration-300"
+							>
+								<Icon icon="lucide:log-out" className="size-3.5" />
+								Salir
+							</button>
+						</div>
+					) : (
+						<GlowButton color="primary" onClick={loginWithGitHub}>
+							<Icon icon="simple-icons:github" className="size-4" />
+							Iniciar con GitHub
+						</GlowButton>
+					)}
 				</aside>
 			</div>
 		</header>
