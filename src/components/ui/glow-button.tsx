@@ -45,7 +45,7 @@ export function GlowButton({
 	...props
 }: GlowButtonProps) {
 	const { bg, fg, shadow } = colorMap[color];
-	const base = `group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm overflow-hidden transition-all duration-300 active:scale-[0.97] ${bg} ${fg} ${shadow} ${className}`;
+	const base = `group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm overflow-hidden transition-all duration-300 active:scale-[0.97] cursor-pointer ${bg} ${fg} ${shadow} ${className}`;
 
 	if (props.href !== undefined) {
 		const { href, ...rest } = props;
