@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardRepositoriosRouteImport } from './routes/dashboard/repositorios'
+import { Route as DashboardPrimerosPasosRouteImport } from './routes/dashboard/primeros-pasos'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ApiGithubReposRouteImport } from './routes/api.github.repos'
-import { Route as ApiAuthCallbackRouteImport } from './routes/api.auth.callback'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -24,53 +27,92 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardRepositoriosRoute = DashboardRepositoriosRouteImport.update({
+  id: '/repositorios',
+  path: '/repositorios',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPrimerosPasosRoute = DashboardPrimerosPasosRouteImport.update({
+  id: '/primeros-pasos',
+  path: '/primeros-pasos',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiGithubReposRoute = ApiGithubReposRouteImport.update({
   id: '/api/github/repos',
   path: '/api/github/repos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiAuthCallbackRoute = ApiAuthCallbackRouteImport.update({
-  id: '/api/auth/callback',
-  path: '/api/auth/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/api/auth/callback': typeof ApiAuthCallbackRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
+  '/dashboard/primeros-pasos': typeof DashboardPrimerosPasosRoute
+  '/dashboard/repositorios': typeof DashboardRepositoriosRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/github/repos': typeof ApiGithubReposRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/api/auth/callback': typeof ApiAuthCallbackRoute
+  '/auth/callback': typeof AuthCallbackRoute
+  '/dashboard/primeros-pasos': typeof DashboardPrimerosPasosRoute
+  '/dashboard/repositorios': typeof DashboardRepositoriosRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/api/github/repos': typeof ApiGithubReposRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/api/auth/callback': typeof ApiAuthCallbackRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
+  '/dashboard/primeros-pasos': typeof DashboardPrimerosPasosRoute
+  '/dashboard/repositorios': typeof DashboardRepositoriosRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/github/repos': typeof ApiGithubReposRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/api/auth/callback' | '/api/github/repos'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/auth/callback'
+    | '/dashboard/primeros-pasos'
+    | '/dashboard/repositorios'
+    | '/dashboard/'
+    | '/api/github/repos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/api/auth/callback' | '/api/github/repos'
+  to:
+    | '/'
+    | '/auth/callback'
+    | '/dashboard/primeros-pasos'
+    | '/dashboard/repositorios'
+    | '/dashboard'
+    | '/api/github/repos'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
-    | '/api/auth/callback'
+    | '/auth/callback'
+    | '/dashboard/primeros-pasos'
+    | '/dashboard/repositorios'
+    | '/dashboard/'
     | '/api/github/repos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  ApiAuthCallbackRoute: typeof ApiAuthCallbackRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  AuthCallbackRoute: typeof AuthCallbackRoute
   ApiGithubReposRoute: typeof ApiGithubReposRoute
 }
 
@@ -90,6 +132,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/repositorios': {
+      id: '/dashboard/repositorios'
+      path: '/repositorios'
+      fullPath: '/dashboard/repositorios'
+      preLoaderRoute: typeof DashboardRepositoriosRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/primeros-pasos': {
+      id: '/dashboard/primeros-pasos'
+      path: '/primeros-pasos'
+      fullPath: '/dashboard/primeros-pasos'
+      preLoaderRoute: typeof DashboardPrimerosPasosRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/github/repos': {
       id: '/api/github/repos'
       path: '/api/github/repos'
@@ -97,20 +167,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGithubReposRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/auth/callback': {
-      id: '/api/auth/callback'
-      path: '/api/auth/callback'
-      fullPath: '/api/auth/callback'
-      preLoaderRoute: typeof ApiAuthCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardPrimerosPasosRoute: typeof DashboardPrimerosPasosRoute
+  DashboardRepositoriosRoute: typeof DashboardRepositoriosRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardPrimerosPasosRoute: DashboardPrimerosPasosRoute,
+  DashboardRepositoriosRoute: DashboardRepositoriosRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  ApiAuthCallbackRoute: ApiAuthCallbackRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  AuthCallbackRoute: AuthCallbackRoute,
   ApiGithubReposRoute: ApiGithubReposRoute,
 }
 export const routeTree = rootRouteImport
