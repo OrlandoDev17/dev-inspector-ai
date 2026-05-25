@@ -5,7 +5,7 @@ import { useAuth } from "#/context/AuthContext";
 import { loginWithGitHub } from "#/lib/auth";
 
 export function Header() {
-	const { user, loading, logout } = useAuth();
+	const { user, loading, loggingOut, logout } = useAuth();
 
 	interface NavItem {
 		id: string;
@@ -34,7 +34,7 @@ export function Header() {
 	return (
 		<header className="fixed top-0 left-0 w-full border-b border-border bg-background/80 backdrop-blur-xl z-50">
 			<div className="flex items-center justify-between max-w-7xl mx-auto w-full h-14 px-6">
-				<div>
+				<div className="flex-1">
 					<Link
 						to="/"
 						className="text-xl font-bold font-plus-jakarta-sans bg-linear-to-r from-primary to-secondary text-transparent bg-clip-text"
@@ -47,7 +47,7 @@ export function Header() {
 						{navItems.map(({ id, label, href }) => (
 							<li key={id}>
 								<Link
-									className="relative px-4 py-2 text-muted font-medium rounded-lg transition-all duration-300 hover:text-foreground hover:bg-card/60 after:absolute after:bottom-1 after:left-4 after:right-4 after:h-[2px] after:rounded-full after:bg-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100"
+									className="relative px-4 py-2 text-sm 2xl:text-base text-muted font-medium rounded-lg transition-all duration-300 hover:text-foreground hover:bg-card/60 after:absolute after:bottom-1 after:left-4 after:right-4 after:h-[2px] after:rounded-full after:bg-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100"
 									to={href}
 									activeProps={{
 										className: "text-foreground bg-card/60 after:scale-x-100",
@@ -60,9 +60,16 @@ export function Header() {
 						))}
 					</ul>
 				</nav>
-				<aside className="flex items-center gap-3">
-					{loading ? (
-						<div className="size-8 rounded-full bg-card animate-pulse" />
+				<aside className="flex items-center gap-3 flex-1 justify-end">
+					{loading || loggingOut ? (
+						<div className="flex items-center gap-2">
+							<div className="size-8 rounded-full bg-card animate-pulse" />
+							{loggingOut && (
+								<span className="text-xs text-muted font-mono animate-pulse">
+									Saliendo...
+								</span>
+							)}
+						</div>
 					) : user ? (
 						<div className="flex items-center gap-3">
 							<div className="flex items-center gap-2">
@@ -78,7 +85,7 @@ export function Header() {
 							<button
 								type="button"
 								onClick={logout}
-								className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted hover:text-foreground hover:bg-card/60 rounded-lg transition-all duration-300"
+								className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted hover:text-foreground hover:bg-card/60 rounded-lg transition-all duration-300 cursor-pointer"
 							>
 								<Icon icon="lucide:log-out" className="size-3.5" />
 								Salir

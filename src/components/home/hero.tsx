@@ -54,7 +54,7 @@ export function Hero() {
 						blur: 10,
 					})}
 				>
-					<GlowButton color="primary" onClick={loginWithGitHub} target="_blank">
+					<GlowButton color="primary" onClick={loginWithGitHub}>
 						<Icon icon="simple-icons:github" className="size-5" />
 						Conectar con GitHub
 					</GlowButton>

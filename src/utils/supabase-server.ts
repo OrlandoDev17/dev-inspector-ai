@@ -1,20 +1,22 @@
 import type { CookieOptions } from "@supabase/ssr";
 import {
+	createBrowserClient,
 	createServerClient,
 	parseCookieHeader,
 	serializeCookieHeader,
 } from "@supabase/ssr";
-import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey =
 	import.meta.env.VITE_SUPABASE_ANON_KEY ?? import.meta.env.VITE_SUPABASE_KEY;
 
-// Lazy singleton para el navegador
-let _supabaseClient: ReturnType<typeof createClient> | null = null;
+// Lazy singleton para el navegador (usado por loginWithGitHub).
+// Usa createBrowserClient para que el PKCE code verifier se almacene en cookies
+// (consistente con el callback que usa createServerClient).
+let _supabaseClient: ReturnType<typeof createBrowserClient> | null = null;
 export function getSupabaseClient() {
 	if (!_supabaseClient) {
-		_supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+		_supabaseClient = createBrowserClient(supabaseUrl, supabaseAnonKey);
 	}
 	return _supabaseClient;
 }
