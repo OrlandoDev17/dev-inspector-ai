@@ -153,7 +153,7 @@ export function QuickGuide() {
 				variants={fade({ direction: "up", distance: 20, blur: 5 })}
 				className="flex items-center justify-center gap-4 pb-8"
 			>
-				<GlowButton color="primary">
+				<GlowButton color="primary" href="/dashboard/repositorios">
 					<Icon icon="lucide:github" className="size-4" />
 					Conectar mi primer repositorio
 				</GlowButton>

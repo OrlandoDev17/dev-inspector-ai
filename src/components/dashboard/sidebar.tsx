@@ -1,29 +1,53 @@
 import { Icon } from "@iconify/react";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "#/context/AuthContext";
 
 export type SectionId = "home" | "repos" | "guide";
 
+// Mapa de cada ruta del dashboard con su id de sección para saber cuál resaltar
+const pathToSection: Record<string, SectionId> = {
+	"/dashboard": "home",
+	"/dashboard/": "home",
+	"/dashboard/repositorios": "repos",
+	"/dashboard/primeros-pasos": "guide",
+};
+
 interface NavItem {
 	id: SectionId;
 	label: string;
 	icon: string;
+	to: string;
 }
 
 const navItems: NavItem[] = [
-	{ id: "home", label: "Dashboard", icon: "lucide:layout-dashboard" },
-	{ id: "repos", label: "Repositorios", icon: "lucide:folder-git-2" },
-	{ id: "guide", label: "Guía Rápida", icon: "lucide:book-open" },
+	{
+		id: "home",
+		label: "Dashboard",
+		icon: "lucide:layout-dashboard",
+		to: "/dashboard",
+	},
+	{
+		id: "repos",
+		label: "Repositorios",
+		icon: "lucide:folder-git-2",
+		to: "/dashboard/repositorios",
+	},
+	{
+		id: "guide",
+		label: "Guía Rápida",
+		icon: "lucide:book-open",
+		to: "/dashboard/primeros-pasos",
+	},
 ];
 
-interface SidebarProps {
-	activeSection: SectionId;
-	onNavigate: (section: SectionId) => void;
-}
-
-export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
+export function Sidebar() {
 	const [collapsed, setCollapsed] = useState(false);
 	const { user } = useAuth();
+	const location = useLocation();
+
+	// Determinar la sección activa según la ruta actual
+	const activeSection = pathToSection[location.pathname] ?? "home";
 
 	return (
 		<aside
@@ -35,7 +59,7 @@ export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
 				<button
 					type="button"
 					onClick={() => setCollapsed(!collapsed)}
-					className="flex items-center justify-center size-8 rounded-lg text-muted hover:text-foreground hover:bg-card/80 transition-all duration-200"
+					className="flex items-center justify-center size-8 rounded-lg text-muted hover:text-foreground hover:bg-card/80 transition-all duration-200 cursor-pointer"
 				>
 					<Icon
 						icon={collapsed ? "lucide:chevron-right" : "lucide:chevron-left"}
@@ -52,11 +76,11 @@ export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
 			<nav className="flex-1 flex flex-col gap-1 p-3">
 				{navItems.map((item) => {
 					const isActive = activeSection === item.id;
+
 					return (
-						<button
+						<Link
 							key={item.id}
-							type="button"
-							onClick={() => onNavigate(item.id)}
+							to={item.to}
 							className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
 								isActive
 									? "bg-primary/10 text-primary"
@@ -65,7 +89,7 @@ export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
 						>
 							<Icon icon={item.icon} className="size-5 shrink-0" />
 							{!collapsed && <span className="truncate">{item.label}</span>}
-						</button>
+						</Link>
 					);
 				})}
 			</nav>
